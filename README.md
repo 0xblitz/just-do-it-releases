@@ -4,7 +4,9 @@ Eine einfache Aufgaben-App für macOS mit Projekten, Terminen, globaler Schnelle
 
 ## Download
 
-Die erste signierte Veröffentlichung wird vorbereitet. Die Installationsdatei erscheint anschließend unter [Releases](https://github.com/0xblitz/just-do-it-releases/releases).
+**[Just Do It für Mac herunterladen](https://github.com/0xblitz/just-do-it-releases/releases/latest/download/Just-Do-It.zip)**
+
+Der Link lädt immer die neueste veröffentlichte Version. Die App ist mit Apple Developer ID signiert und von Apple notarisiert.
 
 Voraussetzung: macOS 14 oder neuer. Unterstützt werden Macs mit Apple Silicon und Intel-Prozessor.
 
