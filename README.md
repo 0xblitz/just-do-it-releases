@@ -10,7 +10,7 @@ Voraussetzung: macOS 14 oder neuer. Unterstützt werden Macs mit Apple Silicon u
 
 ## Installation und Updates
 
-Die DMG öffnen und **Just Do It** in den Ordner **Programme** ziehen. Anschließend die App von dort starten.
+Die ZIP-Datei entpacken und **Just Do It** in den Ordner **Programme** ziehen. Anschließend die App von dort starten.
 
 Die App prüft bei laufender Anwendung automatisch auf neue Versionen und lädt sie herunter. Die Installation erfolgt normalerweise beim Beenden der App. Über **Just Do It → Nach Updates suchen …** lässt sich die Prüfung auch manuell starten.
 
