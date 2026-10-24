@@ -1,0 +1,49 @@
+name: Check public macOS download
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/verify-download.yml
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-26, macos-26-intel]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - name: Identify fresh test system
+        run: |
+          sw_vers
+          uname -m
+          sudo spctl --global-enable
+          spctl --status
+      - name: Download and quarantine published app
+        run: |
+          curl --fail --location --retry 2 --output Just-Do-It.zip https://github.com/0xblitz/just-do-it-releases/releases/latest/download/Just-Do-It.zip
+          shasum -a 256 Just-Do-It.zip
+          ditto -x -k Just-Do-It.zip extracted
+          xattr -wr com.apple.quarantine "0081;$(printf '%x' "$(date +%s)");ReleaseVerification;" "extracted/Just Do It.app"
+          /usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' "extracted/Just Do It.app/Contents/Info.plist"
+      - name: Check complete signature
+        run: |
+          codesign --verify --deep --strict --all-architectures --verbose=4 "extracted/Just Do It.app"
+          codesign --display --verbose=4 "extracted/Just Do It.app"
+      - name: Check macOS distribution policy
+        if: always()
+        run: syspolicy_check distribution --verbose "extracted/Just Do It.app"
+      - name: Check Gatekeeper assessment
+        if: always()
+        run: spctl --assess --type execute --verbose=4 "extracted/Just Do It.app"
+      - name: Check stapled Apple ticket
+        if: always()
+        run: xcrun stapler validate --verbose "extracted/Just Do It.app"
+      - name: Check online notarization
+        if: always()
+        run: codesign --verify --verbose=4 --check-notarization -R="notarized" "extracted/Just Do It.app"
